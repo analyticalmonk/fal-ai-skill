@@ -1,0 +1,11 @@
+{
+  "name": "fal",
+  "description": "Generate images, videos, audio, and more using fal.ai AI models from Claude Code.",
+  "version": "1.0.0",
+  "author": {
+    "name": "analyticalmonk",
+    "url": "https://github.com/analyticalmonk"
+  },
+  "homepage": "https://fal.ai",
+  "license": "MIT"
+}
