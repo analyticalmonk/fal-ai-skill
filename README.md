@@ -4,8 +4,9 @@ Generate images, videos, audio, and more using [fal.ai](https://fal.ai) AI model
 
 ## Installation
 
-```bash
-claude plugin add fal-ai/fal-ai-skill
+```
+/plugin marketplace add analyticalmonk/fal-ai-skill
+/plugin install fal@fal-ai-skill
 ```
 
 ## Setup
