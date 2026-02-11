@@ -1,0 +1,13 @@
+{
+  "name": "fal-ai-skill",
+  "owner": {
+    "name": "analyticalmonk"
+  },
+  "plugins": [
+    {
+      "name": "fal",
+      "source": "./",
+      "description": "Generate images, videos, audio, and more using fal.ai AI models from Claude Code."
+    }
+  ]
+}
