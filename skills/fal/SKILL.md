@@ -19,6 +19,7 @@ Generate images, videos, audio, and more using state-of-the-art AI models on fal
 
 **References:**
 - [Model Reference](references/MODELS.md) — recommended models by category
+- [Cinematography Reference](references/CINEMATOGRAPHY.md) — camera movements, shot types, composition, lighting
 - [Workflow Reference](references/WORKFLOWS.md) — workflow JSON spec and patterns
 - [Platform Reference](references/PLATFORM.md) — pricing, usage, billing APIs
 
@@ -165,6 +166,17 @@ Supported types: jpg, jpeg, png, gif, webp (images), mp4, mov, webm (video), mp3
 **Image-to-Video:** `fal-ai/kling-video/v2.6/pro/image-to-video` (best), `fal-ai/bytedance/seedance/v1.5/pro/image-to-video` (smooth motion)
 
 See [references/MODELS.md](references/MODELS.md) for full list.
+
+### Prompt Crafting
+
+When writing prompts for image or video generation, apply cinematography and storytelling techniques from the [Cinematography Reference](references/CINEMATOGRAPHY.md). Key rules:
+
+- **Structure prompts as:** `[shot type + angle], [subject], [action], [camera movement], [lighting], [style]`
+- **One camera movement per short clip** (under 6s) — don't combine pan + dolly + zoom
+- **Match camera style to content:** handheld for UGC, steadicam for cinematic, drone for landscapes, orbit for products
+- **Specify lighting to set mood:** golden hour for warmth, low-key for drama, natural for authenticity
+- **Lead with the subject**, then describe action, then environment
+- **For images:** focus on composition (rule of thirds, depth of field, leading lines) and lighting over motion
 
 ---
 
