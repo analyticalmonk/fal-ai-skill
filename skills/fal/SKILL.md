@@ -9,8 +9,8 @@ description: >
   "chain models", "setup fal", "add API key", or similar media generation tasks.
 allowed-tools: Bash(bash:*), Bash(curl:*), Bash(source:*), Bash(echo:*), mcp__fal__SearchFal, WebFetch, WebSearch
 metadata:
-  author: fal-ai
-  version: "1.0.0"
+  author: analyticalmonk
+  version: "1.1.0"
 ---
 
 # fal.ai — Unified Media Generation Skill
