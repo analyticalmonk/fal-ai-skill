@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "fal": {
+      "type": "sse",
       "url": "https://docs.fal.ai/mcp"
     }
   }
