@@ -7,5 +7,7 @@
     "url": "https://github.com/analyticalmonk"
   },
   "homepage": "https://fal.ai",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/analyticalmonk/fal-ai-skill",
+  "keywords": ["fal", "ai", "image-generation", "video-generation", "text-to-speech", "media"]
 }
