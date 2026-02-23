@@ -13,6 +13,11 @@ DESCRIPTION=""
 NODES=""
 OUTPUTS=""
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -35,6 +40,27 @@ while [[ $# -gt 0 ]]; do
         --outputs)
             OUTPUTS="$2"
             shift 2
+            ;;
+        --help|-h)
+            echo "fal.ai Workflow Creation Script" >&2
+            echo "" >&2
+            echo "Usage:" >&2
+            echo "  ./create-workflow.sh --name NAME --nodes JSON --outputs JSON [options]" >&2
+            echo "" >&2
+            echo "Options:" >&2
+            echo "  --name          Workflow name (required)" >&2
+            echo "  --title         Display title (defaults to name)" >&2
+            echo "  --description   Workflow description" >&2
+            echo "  --nodes         Nodes JSON array (required)" >&2
+            echo "  --outputs       Outputs JSON object (required)" >&2
+            echo "" >&2
+            echo "Example:" >&2
+            echo "  ./create-workflow.sh --name my-pipeline \\" >&2
+            echo "    --title \"My Pipeline\" \\" >&2
+            echo "    --description \"Generate and upscale\" \\" >&2
+            echo "    --nodes '[{\"nodeId\":\"gen\",\"modelId\":\"fal-ai/flux/dev\",\"input\":{\"prompt\":\"\$input.prompt\"}}]' \\" >&2
+            echo "    --outputs '{\"image\":\"\$gen.images[0].url\"}'" >&2
+            exit 0
             ;;
         *)
             echo "Unknown option: $1" >&2
@@ -73,14 +99,19 @@ echo "Creating workflow: $TITLE..." >&2
 # This is a simplified version - the MCP tool handles complex validation
 WORKFLOW_FILE="$TEMP_DIR/workflow.json"
 
+# Escape user-provided strings for JSON
+ESC_NAME=$(json_escape "$NAME")
+ESC_TITLE=$(json_escape "$TITLE")
+ESC_DESCRIPTION=$(json_escape "$DESCRIPTION")
+
 # Build the workflow JSON
 cat > "$WORKFLOW_FILE" << EOF
 {
   "_type": "ComfyApp",
   "version": "0.1.0",
-  "name": "$NAME",
-  "title": "$TITLE",
-  "description": "$DESCRIPTION",
+  "name": "$ESC_NAME",
+  "title": "$ESC_TITLE",
+  "description": "$ESC_DESCRIPTION",
   "nodes": {},
   "outputs": $OUTPUTS
 }
