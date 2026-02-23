@@ -13,6 +13,11 @@ MODEL="fal-ai/minimax/speech-2.6-turbo"
 TEXT=""
 VOICE=""
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Check for --add-fal-key first
 for arg in "$@"; do
     if [ "$arg" = "--add-fal-key" ]; then
@@ -63,7 +68,7 @@ while [[ $# -gt 0 ]]; do
             echo "" >&2
             echo "Options:" >&2
             echo "  --text          Text to convert (required)" >&2
-            echo "  --model         Model ID (default: fal-ai/maya-tts)" >&2
+            echo "  --model         Model ID (default: fal-ai/minimax/speech-2.6-turbo)" >&2
             echo "  --voice         Voice ID (model-specific)" >&2
             echo "  --add-fal-key   Setup FAL_KEY in .env" >&2
             exit 0
@@ -88,27 +93,27 @@ if [ -z "$TEXT" ]; then
     exit 1
 fi
 
-# Create temp directory
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
-
 echo "Generating speech..." >&2
 echo "Model: $MODEL" >&2
 echo "" >&2
+
+# Escape user-provided strings for JSON
+ESC_TEXT=$(json_escape "$TEXT")
+ESC_VOICE=$(json_escape "$VOICE")
 
 # Build payload
 if [ -n "$VOICE" ]; then
     PAYLOAD=$(cat <<EOF
 {
-  "text": "$TEXT",
-  "voice": "$VOICE"
+  "text": "$ESC_TEXT",
+  "voice": "$ESC_VOICE"
 }
 EOF
 )
 else
     PAYLOAD=$(cat <<EOF
 {
-  "text": "$TEXT"
+  "text": "$ESC_TEXT"
 }
 EOF
 )

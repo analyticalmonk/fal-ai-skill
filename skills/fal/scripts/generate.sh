@@ -29,6 +29,11 @@ MAX_POLL_TIME=600
 LIFECYCLE=""
 SHOW_LOGS=false
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Check for --add-fal-key first
 for arg in "$@"; do
     if [ "$arg" = "--add-fal-key" ]; then
@@ -343,6 +348,10 @@ if [ -z "$PROMPT" ]; then
     exit 1
 fi
 
+# Escape user-provided strings for JSON
+ESC_PROMPT=$(json_escape "$PROMPT")
+ESC_IMAGE_URL=$(json_escape "$IMAGE_URL")
+
 # Build the request payload based on model type
 if [[ "$MODEL" == *"image-to-video"* ]] || [[ "$MODEL" == *"i2v"* ]]; then
     if [ -z "$IMAGE_URL" ]; then
@@ -350,17 +359,17 @@ if [[ "$MODEL" == *"image-to-video"* ]] || [[ "$MODEL" == *"i2v"* ]]; then
         exit 1
     fi
     PAYLOAD=$(cat <<EOF
-{"prompt": "$PROMPT", "image_url": "$IMAGE_URL"}
+{"prompt": "$ESC_PROMPT", "image_url": "$ESC_IMAGE_URL"}
 EOF
 )
 elif [[ "$MODEL" == *"video"* ]] || [[ "$MODEL" == *"veo"* ]] || [[ "$MODEL" == *"text-to-video"* ]]; then
     PAYLOAD=$(cat <<EOF
-{"prompt": "$PROMPT"}
+{"prompt": "$ESC_PROMPT"}
 EOF
 )
 else
     PAYLOAD=$(cat <<EOF
-{"prompt": "$PROMPT", "image_size": "$IMAGE_SIZE", "num_images": $NUM_IMAGES}
+{"prompt": "$ESC_PROMPT", "image_size": "$IMAGE_SIZE", "num_images": $NUM_IMAGES}
 EOF
 )
 fi

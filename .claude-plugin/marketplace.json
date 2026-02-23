@@ -3,11 +3,16 @@
   "owner": {
     "name": "analyticalmonk"
   },
+  "metadata": {
+    "description": "Claude Code plugin for fal.ai media generation — images, videos, audio, and more."
+  },
   "plugins": [
     {
       "name": "fal",
       "source": "./",
-      "description": "Generate images, videos, audio, and more using fal.ai AI models from Claude Code."
+      "description": "Generate images, videos, audio, and more using fal.ai AI models from Claude Code.",
+      "category": "media",
+      "tags": ["fal", "ai", "image-generation", "video-generation", "text-to-speech", "upscaling", "media"]
     }
   ]
 }

@@ -13,6 +13,11 @@ MODEL="fal-ai/aura-sr"
 IMAGE_URL=""
 SCALE=4
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Check for --add-fal-key first
 for arg in "$@"; do
     if [ "$arg" = "--add-fal-key" ]; then
@@ -88,18 +93,17 @@ if [ -z "$IMAGE_URL" ]; then
     exit 1
 fi
 
-# Create temp directory
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
-
 echo "Upscaling with $MODEL..." >&2
+
+# Escape user-provided strings for JSON
+ESC_IMAGE_URL=$(json_escape "$IMAGE_URL")
 
 # Build payload based on model
 if [[ "$MODEL" == *"aura-sr"* ]]; then
     # AuraSR has fixed 4x scale
     PAYLOAD=$(cat <<EOF
 {
-  "image_url": "$IMAGE_URL"
+  "image_url": "$ESC_IMAGE_URL"
 }
 EOF
 )
@@ -107,7 +111,7 @@ else
     # Other models support scale parameter
     PAYLOAD=$(cat <<EOF
 {
-  "image_url": "$IMAGE_URL",
+  "image_url": "$ESC_IMAGE_URL",
   "scale": $SCALE
 }
 EOF

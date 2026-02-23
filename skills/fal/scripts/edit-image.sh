@@ -15,6 +15,11 @@ OPERATION="style"
 MASK_URL=""
 STRENGTH=0.75
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Check for --add-fal-key first
 for arg in "$@"; do
     if [ "$arg" = "--add-fal-key" ]; then
@@ -130,22 +135,23 @@ case $OPERATION in
         ;;
 esac
 
-# Create temp directory
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
-
 echo "Editing image..." >&2
 echo "Model: $MODEL" >&2
 echo "Operation: $OPERATION" >&2
 echo "" >&2
+
+# Escape user-provided strings for JSON
+ESC_PROMPT=$(json_escape "$PROMPT")
+ESC_IMAGE_URL=$(json_escape "$IMAGE_URL")
+ESC_MASK_URL=$(json_escape "$MASK_URL")
 
 # Build payload based on operation
 case $OPERATION in
     style)
         PAYLOAD=$(cat <<EOF
 {
-  "image_url": "$IMAGE_URL",
-  "prompt": "$PROMPT",
+  "image_url": "$ESC_IMAGE_URL",
+  "prompt": "$ESC_PROMPT",
   "strength": $STRENGTH
 }
 EOF
@@ -154,8 +160,8 @@ EOF
     remove|background)
         PAYLOAD=$(cat <<EOF
 {
-  "image_url": "$IMAGE_URL",
-  "prompt": "$PROMPT"
+  "image_url": "$ESC_IMAGE_URL",
+  "prompt": "$ESC_PROMPT"
 }
 EOF
 )
@@ -163,9 +169,9 @@ EOF
     inpaint)
         PAYLOAD=$(cat <<EOF
 {
-  "image_url": "$IMAGE_URL",
-  "mask_url": "$MASK_URL",
-  "prompt": "$PROMPT"
+  "image_url": "$ESC_IMAGE_URL",
+  "mask_url": "$ESC_MASK_URL",
+  "prompt": "$ESC_PROMPT"
 }
 EOF
 )

@@ -13,6 +13,11 @@ MODEL="fal-ai/whisper"
 AUDIO_URL=""
 LANGUAGE=""
 
+# Escape string for safe JSON embedding
+json_escape() {
+  printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' | tr -d '\n\r'
+}
+
 # Check for --add-fal-key first
 for arg in "$@"; do
     if [ "$arg" = "--add-fal-key" ]; then
@@ -88,19 +93,18 @@ if [ -z "$AUDIO_URL" ]; then
     exit 1
 fi
 
-# Create temp directory
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
-
 echo "Transcribing audio..." >&2
 echo "Model: $MODEL" >&2
 echo "" >&2
+
+# Escape user-provided strings for JSON
+ESC_AUDIO_URL=$(json_escape "$AUDIO_URL")
 
 # Build payload
 if [ -n "$LANGUAGE" ]; then
     PAYLOAD=$(cat <<EOF
 {
-  "audio_url": "$AUDIO_URL",
+  "audio_url": "$ESC_AUDIO_URL",
   "language": "$LANGUAGE"
 }
 EOF
@@ -108,7 +112,7 @@ EOF
 else
     PAYLOAD=$(cat <<EOF
 {
-  "audio_url": "$AUDIO_URL"
+  "audio_url": "$ESC_AUDIO_URL"
 }
 EOF
 )
