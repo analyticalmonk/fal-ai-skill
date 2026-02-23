@@ -4,7 +4,7 @@
     "name": "analyticalmonk"
   },
   "metadata": {
-    "description": "Claude Code plugin for fal.ai media generation — images, videos, audio, and more."
+    "description": "Claude Code plugin for fal.ai media generation - images, videos, audio, and more."
   },
   "plugins": [
     {

@@ -63,12 +63,12 @@ Use these terms in video prompts to direct motion:
 
 Apply to both image and video prompts:
 
-- **Rule of thirds** — "subject positioned off-center, rule of thirds"
-- **Leading lines** — "converging lines drawing eye toward subject"
-- **Depth of field** — "shallow depth of field, soft bokeh background"
-- **Framing** — "framed through a doorway/window/arch"
-- **Symmetry** — "perfectly symmetrical composition"
-- **Negative space** — "minimal composition with negative space"
+- **Rule of thirds** - "subject positioned off-center, rule of thirds"
+- **Leading lines** - "converging lines drawing eye toward subject"
+- **Depth of field** - "shallow depth of field, soft bokeh background"
+- **Framing** - "framed through a doorway/window/arch"
+- **Symmetry** - "perfectly symmetrical composition"
+- **Negative space** - "minimal composition with negative space"
 
 ---
 
@@ -89,16 +89,16 @@ Apply to both image and video prompts:
 
 ## Storytelling Tips
 
-1. **Start with the subject** — clearly describe who/what is in frame before describing action
-2. **Specify one action** — "picks up the mug and smiles" not "picks up the mug, drinks, puts it down, stands up, walks away"
-3. **Set the mood with lighting** — lighting communicates emotion more than words
+1. **Start with the subject** - clearly describe who/what is in frame before describing action
+2. **Specify one action** - "picks up the mug and smiles" not "picks up the mug, drinks, puts it down, stands up, walks away"
+3. **Set the mood with lighting** - lighting communicates emotion more than words
 4. **Match camera to content:**
    - Product showcase → orbit/dolly, clean lighting
    - UGC/testimonial → handheld, natural light
    - Cinematic → steadicam, dramatic lighting
    - Epic/landscape → drone/crane, golden hour
-5. **Describe the ending state** for short clips — models handle clear start-to-end arcs better
-6. **Include texture and material cues** — "ceramic mug", "worn leather jacket", "polished marble" add realism
+5. **Describe the ending state** for short clips - models handle clear start-to-end arcs better
+6. **Include texture and material cues** - "ceramic mug", "worn leather jacket", "polished marble" add realism
 
 ---
 

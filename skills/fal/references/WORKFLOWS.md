@@ -46,10 +46,10 @@ To combine values, use `fal-ai/text-concat` or `fal-ai/workflow-utilities/merge-
 
 ## Critical Rules
 
-1. **Dependencies must match references** — every `$node-x.xxx` needs `"depends": ["node-x"]`
-2. **ID must match object key** — `"my-node": { "id": "my-node" }`
-3. **Use correct LLM type** — `openrouter/router` (text only) vs `openrouter/router/vision` (image analysis)
-4. **Schema modelId required** — each input field needs `"modelId": "first-consuming-node"`
+1. **Dependencies must match references** - every `$node-x.xxx` needs `"depends": ["node-x"]`
+2. **ID must match object key** - `"my-node": { "id": "my-node" }`
+3. **Use correct LLM type** - `openrouter/router` (text only) vs `openrouter/router/vision` (image analysis)
+4. **Schema modelId required** - each input field needs `"modelId": "first-consuming-node"`
 5. **Output depends on all referenced nodes**
 
 ## Minimal Working Example
@@ -243,7 +243,7 @@ All parallel nodes depend on hub, NOT on each other.
 Before outputting any workflow, verify:
 
 - All nodes have `type: "run"` or `type: "display"` ONLY (NO `type: "input"`)
-- No string interpolation — variable MUST be ENTIRE value
+- No string interpolation - variable MUST be ENTIRE value
 - Every `$node.xxx` has matching `depends` entry
 - Every node `id` matches object key
 - Input schema has `modelId` for each field

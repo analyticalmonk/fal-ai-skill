@@ -1,4 +1,4 @@
-# fal — Claude Code Plugin
+# fal - Claude Code Plugin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](.claude-plugin/plugin.json)
