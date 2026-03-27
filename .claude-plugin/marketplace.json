@@ -10,6 +10,7 @@
     {
       "name": "fal",
       "source": "./",
+      "skills": ["./skills/fal"],
       "description": "Generate images, videos, audio, and more using fal.ai AI models from Claude Code.",
       "category": "media",
       "tags": ["fal", "ai", "image-generation", "video-generation", "text-to-speech", "upscaling", "media"]
