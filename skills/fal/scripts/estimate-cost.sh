@@ -114,7 +114,7 @@ fi
 
 echo "" >&2
 if command -v python3 &> /dev/null; then
-    python3 << PYTHON_EOF - "$PRICING_RESPONSE" "$MODEL" "$QUANTITY" "$ESTIMATE_TYPE"
+    python3 << 'PYTHON_EOF' - "$PRICING_RESPONSE" "$MODEL" "$QUANTITY" "$ESTIMATE_TYPE"
 import json
 import sys
 

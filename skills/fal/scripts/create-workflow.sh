@@ -105,17 +105,22 @@ ESC_TITLE=$(json_escape "$TITLE")
 ESC_DESCRIPTION=$(json_escape "$DESCRIPTION")
 
 # Build the workflow JSON
-cat > "$WORKFLOW_FILE" << EOF
+cat > "$WORKFLOW_FILE" << 'EOF'
 {
   "_type": "ComfyApp",
   "version": "0.1.0",
-  "name": "$ESC_NAME",
-  "title": "$ESC_TITLE",
-  "description": "$ESC_DESCRIPTION",
+  "name": "__NAME__",
+  "title": "__TITLE__",
+  "description": "__DESC__",
   "nodes": {},
-  "outputs": $OUTPUTS
+  "outputs": __OUTPUTS__
 }
 EOF
+# Substitute escaped values into the template (avoids unquoted heredoc expansion)
+sed -i "s|__NAME__|$ESC_NAME|g" "$WORKFLOW_FILE"
+sed -i "s|__TITLE__|$ESC_TITLE|g" "$WORKFLOW_FILE"
+sed -i "s|__DESC__|$ESC_DESCRIPTION|g" "$WORKFLOW_FILE"
+sed -i "s|__OUTPUTS__|$OUTPUTS|g" "$WORKFLOW_FILE"
 
 # Process nodes and add to workflow
 # Note: This is a basic implementation. For full validation, use the MCP tool.
@@ -123,16 +128,19 @@ echo "Processing nodes..." >&2
 
 # Use Python/jq if available for proper JSON manipulation
 if command -v python3 &> /dev/null; then
-    python3 << PYTHON_EOF
+    FAL_WORKFLOW_FILE="$WORKFLOW_FILE" FAL_NODES="$NODES" python3 << 'PYTHON_EOF'
 import json
-import sys
+import os
+
+workflow_file = os.environ["FAL_WORKFLOW_FILE"]
+nodes_json = os.environ["FAL_NODES"]
 
 # Read workflow
-with open("$WORKFLOW_FILE", "r") as f:
+with open(workflow_file, "r") as f:
     workflow = json.load(f)
 
 # Parse nodes
-nodes = json.loads('''$NODES''')
+nodes = json.loads(nodes_json)
 
 # Build nodes object
 for node in nodes:
@@ -143,7 +151,7 @@ for node in nodes:
 
     # Detect dependencies from input references
     for key, value in node_input.items():
-        if isinstance(value, str) and value.startswith("\$") and not value.startswith("\$input"):
+        if isinstance(value, str) and value.startswith("$") and not value.startswith("$input"):
             ref_node = value.split(".")[0][1:]  # Remove $ and get node name
             if ref_node not in depends_on:
                 depends_on.append(ref_node)
