@@ -13,9 +13,10 @@ QUERY=""
 CATEGORY=""
 LIMIT=20
 
-# Load .env if exists
-if [ -f ".env" ]; then
-    source .env 2>/dev/null || true
+# Load FAL_KEY from .env if exists (grep-based to avoid executing arbitrary content)
+if [ -f ".env" ] && [ -z "$FAL_KEY" ]; then
+    FAL_KEY=$(grep '^FAL_KEY=' .env | head -1 | cut -d'=' -f2- | tr -d '"'"'")
+    export FAL_KEY
 fi
 
 # Check for --add-fal-key first
