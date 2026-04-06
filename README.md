@@ -21,11 +21,7 @@ Generate images, videos, audio, and more using [fal.ai](https://fal.ai) AI model
 /fal setup
 ```
 
-Or run the setup script directly:
-
-```bash
-bash skills/fal/scripts/setup.sh --add-fal-key
-```
+Or pass `--add-fal-key` to any script for interactive key configuration.
 
 ## Capabilities
 
