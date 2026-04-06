@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.0] - 2026-04-06
+
+### Security
+- Replace `source .env` with safe grep-based `FAL_KEY` extraction to prevent arbitrary code execution
+- Quote heredocs in all scripts to prevent command injection
+- Validate and reject invalid API keys in `--add-fal-key` setup flow
+- Add data handling boundary markers and harden credential documentation
+
+### Changed
+- Rewrite README setup section to be clear and actionable
+
 ## [1.1.0] - 2026-02-11
 
 ### Fixed
