@@ -15,10 +15,18 @@ Generate images, videos, audio, and more using [fal.ai](https://fal.ai) AI model
 ## Setup
 
 1. Get your API key at [fal.ai/dashboard/keys](https://fal.ai/dashboard/keys)
-2. Run the setup script:
+2. The setup script is interactive - it prompts for your key directly. Run it yourself in the Claude Code prompt:
 
 ```
-/fal setup
+! bash skills/fal/scripts/setup.sh --add-fal-key
+```
+
+This saves your key to a `.env` file in your current working directory. The plugin reads it automatically from there.
+
+If you already have a key, you can also create the `.env` file manually:
+
+```
+echo 'FAL_KEY="your-key-here"' > .env
 ```
 
 ## Capabilities
@@ -54,7 +62,7 @@ The plugin includes the fal MCP server for searching documentation and discoveri
 
 ## Troubleshooting
 
-**FAL_KEY not set:** Run `/fal setup` or pass `--add-fal-key` to any script for interactive key configuration.
+**FAL_KEY not set:** Run `! bash skills/fal/scripts/setup.sh --add-fal-key` in the Claude Code prompt to interactively set your key. It saves to `.env` in your working directory.
 
 **Video generation timeout:** Video models can take several minutes. The plugin uses queue mode by default with a 10-minute timeout. For very long tasks, use async mode: `/fal generate --mode async --prompt "..."` and check status later.
 
