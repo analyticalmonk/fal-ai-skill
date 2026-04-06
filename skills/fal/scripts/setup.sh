@@ -108,9 +108,6 @@ if [ "$ACTION" = "add-key" ]; then
     echo "" >&2
     echo "To use in current session, run:" >&2
     echo "  source $ENV_FILE" >&2
-    echo "" >&2
-    echo "Or export directly:" >&2
-    echo "  source $ENV_FILE" >&2
 
     # Output JSON
     echo "{\"success\": true, \"env_file\": \"$ENV_FILE\"}"

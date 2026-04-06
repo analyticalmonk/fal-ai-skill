@@ -104,23 +104,9 @@ ESC_NAME=$(json_escape "$NAME")
 ESC_TITLE=$(json_escape "$TITLE")
 ESC_DESCRIPTION=$(json_escape "$DESCRIPTION")
 
-# Build the workflow JSON
-cat > "$WORKFLOW_FILE" << 'EOF'
-{
-  "_type": "ComfyApp",
-  "version": "0.1.0",
-  "name": "__NAME__",
-  "title": "__TITLE__",
-  "description": "__DESC__",
-  "nodes": {},
-  "outputs": __OUTPUTS__
-}
-EOF
-# Substitute escaped values into the template (avoids unquoted heredoc expansion)
-sed -i "s|__NAME__|$ESC_NAME|g" "$WORKFLOW_FILE"
-sed -i "s|__TITLE__|$ESC_TITLE|g" "$WORKFLOW_FILE"
-sed -i "s|__DESC__|$ESC_DESCRIPTION|g" "$WORKFLOW_FILE"
-sed -i "s|__OUTPUTS__|$OUTPUTS|g" "$WORKFLOW_FILE"
+# Build the workflow JSON (printf avoids heredoc expansion and sed portability issues)
+printf '{\n  "_type": "ComfyApp",\n  "version": "0.1.0",\n  "name": "%s",\n  "title": "%s",\n  "description": "%s",\n  "nodes": {},\n  "outputs": %s\n}\n' \
+    "$ESC_NAME" "$ESC_TITLE" "$ESC_DESCRIPTION" "$OUTPUTS" > "$WORKFLOW_FILE"
 
 # Process nodes and add to workflow
 # Note: This is a basic implementation. For full validation, use the MCP tool.
