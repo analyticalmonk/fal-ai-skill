@@ -10,7 +10,7 @@ description: >
 allowed-tools: Bash(bash:*), Bash(curl:*), Bash(source:*), Bash(echo:*), mcp__fal__SearchFal, WebFetch, WebSearch
 metadata:
   author: analyticalmonk
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # fal.ai - Unified Media Generation Skill
