@@ -1,7 +1,7 @@
 # fal - Claude Code Plugin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](.claude-plugin/plugin.json)
 
 Generate images, videos, audio, and more using [fal.ai](https://fal.ai) AI models directly from Claude Code.
 
@@ -21,10 +21,10 @@ Generate images, videos, audio, and more using [fal.ai](https://fal.ai) AI model
 /fal setup
 ```
 
-Or set your key directly:
+Or run the setup script directly:
 
 ```bash
-export FAL_KEY=your_key_here
+bash skills/fal/scripts/setup.sh --add-fal-key
 ```
 
 ## Capabilities
@@ -60,7 +60,7 @@ The plugin includes the fal MCP server for searching documentation and discoveri
 
 ## Troubleshooting
 
-**FAL_KEY not set:** Run `/fal setup` or `export FAL_KEY=your_key_here`. You can also pass `--add-fal-key` to any script.
+**FAL_KEY not set:** Run `/fal setup` or pass `--add-fal-key` to any script for interactive key configuration.
 
 **Video generation timeout:** Video models can take several minutes. The plugin uses queue mode by default with a 10-minute timeout. For very long tasks, use async mode: `/fal generate --mode async --prompt "..."` and check status later.
 
