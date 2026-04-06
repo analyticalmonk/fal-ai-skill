@@ -87,9 +87,10 @@ if [ "$ACTION" = "add-key" ]; then
         exit 1
     fi
 
-    # Validate key format (basic check)
-    if [[ ! "$FAL_KEY_VALUE" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-        echo "Warning: API key contains unusual characters" >&2
+    # Validate key format (reject invalid characters to prevent .env injection)
+    if [[ ! "$FAL_KEY_VALUE" =~ ^[a-zA-Z0-9_:-]+$ ]]; then
+        echo "Error: Invalid API key format. Keys may only contain letters, digits, hyphens, underscores, and colons." >&2
+        exit 1
     fi
 
     # Update or create .env file
@@ -99,17 +100,14 @@ if [ "$ACTION" = "add-key" ]; then
         mv "$ENV_FILE.tmp" "$ENV_FILE"
     fi
 
-    # Add new FAL_KEY
-    echo "FAL_KEY=$FAL_KEY_VALUE" >> "$ENV_FILE"
+    # Add new FAL_KEY (quoted to prevent expansion on source)
+    echo "FAL_KEY=\"$FAL_KEY_VALUE\"" >> "$ENV_FILE"
 
     echo "" >&2
     echo "FAL_KEY saved to $ENV_FILE" >&2
     echo "" >&2
     echo "To use in current session, run:" >&2
     echo "  source $ENV_FILE" >&2
-    echo "" >&2
-    echo "Or export directly:" >&2
-    echo "  export FAL_KEY=$FAL_KEY_VALUE" >&2
 
     # Output JSON
     echo "{\"success\": true, \"env_file\": \"$ENV_FILE\"}"

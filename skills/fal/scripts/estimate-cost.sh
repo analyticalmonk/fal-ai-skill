@@ -66,9 +66,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Load .env if exists
-if [ -f ".env" ]; then
-    source .env 2>/dev/null || true
+# Load FAL_KEY from .env if exists (grep-based to avoid executing arbitrary content)
+if [ -f ".env" ] && [ -z "$FAL_KEY" ]; then
+    FAL_KEY=$(grep '^FAL_KEY=' .env | head -1 | cut -d'=' -f2- | tr -d '"'"'")
+    export FAL_KEY
 fi
 
 # Check for FAL_KEY
@@ -114,7 +115,7 @@ fi
 
 echo "" >&2
 if command -v python3 &> /dev/null; then
-    python3 << PYTHON_EOF - "$PRICING_RESPONSE" "$MODEL" "$QUANTITY" "$ESTIMATE_TYPE"
+    python3 << 'PYTHON_EOF' - "$PRICING_RESPONSE" "$MODEL" "$QUANTITY" "$ESTIMATE_TYPE"
 import json
 import sys
 

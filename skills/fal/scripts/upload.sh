@@ -30,18 +30,23 @@ for arg in "$@"; do
             read -r KEY_VALUE
         fi
         if [ -n "$KEY_VALUE" ]; then
+            if [[ ! "$KEY_VALUE" =~ ^[a-zA-Z0-9_:-]+$ ]]; then
+                echo "Error: Invalid API key format" >&2
+                exit 1
+            fi
             grep -v "^FAL_KEY=" .env > .env.tmp 2>/dev/null || true
             mv .env.tmp .env 2>/dev/null || true
-            echo "FAL_KEY=$KEY_VALUE" >> .env
+            echo "FAL_KEY=\"$KEY_VALUE\"" >> .env
             echo "FAL_KEY saved to .env" >&2
         fi
         exit 0
     fi
 done
 
-# Load .env if exists
-if [ -f ".env" ]; then
-    source .env 2>/dev/null || true
+# Load FAL_KEY from .env if exists (grep-based to avoid executing arbitrary content)
+if [ -f ".env" ] && [ -z "$FAL_KEY" ]; then
+    FAL_KEY=$(grep '^FAL_KEY=' .env | head -1 | cut -d'=' -f2- | tr -d '"'"'")
+    export FAL_KEY
 fi
 
 # Parse arguments
